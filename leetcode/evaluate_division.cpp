@@ -3,20 +3,25 @@ public:
     vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
         vector<double> ans;
         //nominator_hash;
-        unordered_map<char, vector<int>> numerator_hash;
+        unordered_map<string, vector<int>> numerator_hash;
         //denominator_hash;
-        unordered_map<char, vector<int>> denominator_hash;
+        unordered_map<string, vector<int>> denominator_hash;
+		build_hash(equations, numerator_hash, denominator_hash);
         //build graph using nominator and denominator hash
-        build_graph();
+        //build_graph(); already built using numerator hash
         //run the queries with dfs
 		for (vector<string> query: queries) {
-		
+			if ((numerator_hash.find(query[0]) == numerator_hash.end())
+							|| (denominator_hash.find(query[1]) == denominator_hash.end())) {
+					ans.push_back(-1.0);
+			}
+			//do dfs
 		}
         return ans;
     }
 private:
-    void build_hash(vector<vector<string>>& equations, unordered_map<char,
-						vector<int>> &numerator_hash, unordered_map<vector<int>>> &denominator_hash) {
+    void build_hash(vector<vector<string>>& equations, unordered_map<string,
+						vector<int>> &numerator_hash, unordered_map<string, vector<int>>> &denominator_hash) {
         for (int i = 0; i < equations.size(); i++) {
 			vector<string> elem = equations[i];
 			if (numerator_hash.find(elem[0]) == numerator_hash.end()) {
@@ -38,4 +43,7 @@ private:
 			}
 		}
     }
+	int do_dfs(string st, string en, unordered_map<string, vector<int>> denominator_hash) {
+		
+	}
 };
